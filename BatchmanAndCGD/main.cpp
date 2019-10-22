@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <unordered_set>
-#include <unordered_map>
+#include <set>
 #include <utility>
 #include <math.h>
 #include <algorithm>
@@ -10,17 +9,18 @@ using namespace std;
 
 typedef unsigned int ui; 
 
+ui gcd_func(ui &x, ui &y) {
+	ui temp;
+	while (y != 0) {
+		temp = y;
+		y = x % y;
+		x = temp;
+	}
+	
+    return x;
+}
 
-ui gcd_func(ui a, ui b) 
-{ 
-    if (b == 0) 
-        return a; 
-
-    return gcd_func(b, a % b);  
-      
-} 
-
-void generate_all_subsequences(const vector<ui> sequence, vector<vector<ui>> &subsequences)
+void generate_all_subsequences(const vector<ui> &sequence, vector<vector<ui>> &subsequences)
 {
     const int n = sequence.size();
 
@@ -33,6 +33,9 @@ void generate_all_subsequences(const vector<ui> sequence, vector<vector<ui>> &su
                 candidate.push_back(sequence[j]);
             }
          }
+         
+         if(candidate.size() == 0 || candidate.size() == 1 || candidate.size() >2)// sequence.size())
+            continue;
          subsequences.push_back(move(candidate));
     }
 }
@@ -43,23 +46,20 @@ int main() {
     vector<ui> a;
     ui a_elem;
     
-    ui i = 0; 
-    unordered_set<int> results;
-    //vector<int> results;
+    set<int> results;
     
-    while(i < n){
+    for(ui i = 0; i < n; i++){
         cin >> a_elem;
         a.push_back(a_elem);
         
         if(results.find(a_elem) == results.end()){ 
             results.insert(a_elem);
         }
-
-        i++;
     }
     vector<vector<ui>> vli;
     generate_all_subsequences(a, vli);
- 
+    a.clear();
+    
     for(size_t i = 0; i < vli.size(); i++){
 
         if(vli[i].size() <= 1 || vli[i].size() > k)
@@ -76,6 +76,7 @@ int main() {
             results.insert(gcd);
         }
     }
+    
     
     cout << results.size();
     return 0;

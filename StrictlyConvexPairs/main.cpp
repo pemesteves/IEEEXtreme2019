@@ -72,13 +72,21 @@ int main() {
     cin >> n >> m;
     long int x, y;
     vector<Point> vertices;
+    long int max_x = INT_MIN, max_y = INT_MIN, min_x = INT_MAX, min_y = INT_MAX;
     while(n > 0){
         cin >> x >> y;
+        if(x > max_x)
+            max_x = x;
+        if(x < min_x)
+            min_x = x;
+        if(max_y < y)
+            max_y = y;
+        if(min_y > y)
+            min_y = y;
     
         vertices.push_back(Point(x, y));
         n--;   
     }
-    
     vector<Point> points;
 
     while(m > 0){
@@ -92,7 +100,7 @@ int main() {
     bool intersect = false;
     for(size_t i = 0; i < points.size(); i++){
         for(size_t j = i+1; j < points.size(); j++){
-            
+
             intersect = false;
             for(size_t k = 0; k < vertices.size(); k++){
                 if((intersect = doIntersect(points[i], points[j], vertices[k], vertices[(k+1)%vertices.size()]))){

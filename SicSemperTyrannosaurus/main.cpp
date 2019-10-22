@@ -9,7 +9,7 @@ int main() {
     cin >> n >> k >> q;
     
     unsigned long int vi;
-    vector<unsigned long int> v;
+    vector<unsigned long int> v, v1;
     while(n > 0){
         cin >> vi;
         v.push_back(vi);
@@ -21,18 +21,13 @@ int main() {
         cin >> beginning;
         if(beginning == 'Q'){
             cin >> l >> r;
-            
+            v1 = v;
             for(unsigned long int i = 0; i < k; i++){
                 for(unsigned long int j = l; j < r; j++){
-                    v[j] += v[j-1];
+                    v1[j] += v1[j-1];
                 }
             }
-            cout << v[r-1]%1000000007 << endl;
-            for(unsigned long int i = 0; i < k; i++){
-                for(unsigned long int j = r-1; j >= l; j--){
-                    v[j] -= v[j-1];
-                }
-            }
+            cout << v1[r-1]%1000000007 << endl;
         }
         else{ //'U'
             cin >> p >> x;
